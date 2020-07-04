@@ -1,0 +1,59 @@
+<DOCTYPE html>
+<html><meta charset="utf-8"><body>
+<h1>영화흥행도 예측하기</h1>
+<div>
+	<h3>영화이름 <textarea id = "movie_title" rows="1" cols="30"></textarea></h3>
+	<br><button id = "searchButton">영화검색</button>
+	<br><button id = "predictButton">흥행예측</button>
+	<div id = "result"></div>
+</div>
+<script>
+	const qs = (movie_title) => document.querySelector(movie_title)
+	
+	window.onload = () => {
+		const movie_title = qs('#movie_title')
+		const predict = qs('#movie_title')                                    
+		const searchButton = qs('#searchButton')
+		const predictButton = qs('#predictButton')
+		const result = qs('#result')
+	
+
+	 	searchButton.onclick = () => {
+			result.innerHTML = "..."
+			const api = "/api?movie_title=" + encodeURIComponent(movie_title.value)
+			fetch(api).then((res) => {
+				return res.json()
+
+			}).then((data) => {
+				result.innerHTML =
+				"<span> 긍정비율 = " + data["positiveRate"] + 
+				"<br> 이틀째 관객수 = " + data["audience"] + 
+				"<br> 2일차 스크린수 = " + data["screen"] +
+				"<br> SF여부 = " + data["sf"] + "</span>"				
+			})
+        } 
+
+		predictButton.onclick = () => {
+			result.innerHTML = "..."
+			const api2 = "/api2?predict=" + encodeURIComponent(predict.value)
+			fetch(api2).then((res) => {
+				return res.json()
+
+			}).then((data) => {
+				result.innerHTML =
+				"<span> 흥행등급 = " + data["predictgrade"] + 
+				"<br>" + data["predictment"] + "</span>"				
+			})
+
+
+		}
+	}
+</script>
+<style>
+	#result { padding: 10px;
+		      font-size: 2em; 
+		      color:black;
+		    }
+	#q { background-color : #fffff0; }
+</style>
+</body></html>

@@ -1,0 +1,139 @@
+<DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Movie - Boxing Predict</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="static/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template -->
+  <link href="static/css/landing-page.min.css" rel="stylesheet">
+
+</head>
+<body>
+	<nav class="navbar navbar-light bg-light static-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Movie Boxing Predict</a>
+    </div>
+  </nav>
+
+<header class="masthead text-white text-center">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-9 mx-auto">
+          <h1 class="mb-5"> Enter movie information 
+          you want to know</h1>
+        </div>
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+          <form>
+            <div class="form-row">
+                <input id="movie_title" type="text" class="form-control form-control-lg" placeholder="Enter Movie...">
+           </div> 
+       </form>
+            <div class="col-12 col-md-3", style="float:right">
+                 <button id = "predictButton" class="btn btn-block btn-lg btn-primary">Predict</button>
+            </div>
+            <div class="col-12 col-md-3", style="float:right">
+                <button id = "searchButton" class="btn btn-block btn-lg btn-primary">Search</button>
+            </div>
+    </div>
+</div>
+</header>
+
+<section class="features-icons bg-light text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+            <h3>Movie information</h3>
+            <p id="result" class="lead mb-0"></p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+            <h3>Predict Boxing</h3>
+            <p class="lead mb-0"></p>
+            <p id="result2" class="lead mb-0"></p>
+          </div>
+        </div>
+        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+            <h3>Made by HyunJun</h3>
+            <p class="lead mb-0">Date : 2019 - 08 - 28 </p>
+            <p class="lead mb-0">Phone : 010 - **** - **** </p>
+            <p class="lead mb-0">Assitant : YoungJun Lim </p>
+          </div>
+        </div>
+
+
+<div>
+
+</div>
+<script>
+	const qs = (movie_title) => document.querySelector(movie_title)
+	
+	window.onload = () => {
+		const movie_title = qs('#movie_title')
+		const predict = qs('#movie_title')                                    
+		const searchButton = qs('#searchButton')
+		const predictButton = qs('#predictButton')
+		const result = qs('#result')
+		const result2 = qs('#result2')
+	
+
+	 	searchButton.onclick = () => {
+			result.innerHTML = "..."
+			const api = "/api?movie_title=" + encodeURIComponent(movie_title.value)
+			fetch(api).then((res) => {
+				return res.json()
+
+			}).then((data) => {
+				result.innerHTML =
+				"<span> PositiveRate = " + data["positiveRate"] + 
+				"<br> 2-Days Audience = " + data["audience"] + 
+				"<br> 2-Days Screen = " + data["screen"] +
+				"<br> SF or Not = " + data["sf"] + "</span>"				
+			})
+        } 
+
+		predictButton.onclick = () => {
+			const api2 = "/api2?predict=" + encodeURIComponent(predict.value)
+			fetch(api2).then((res) => {
+				return res.json()
+
+			}).then((data) => {
+				result2.innerHTML =
+				"<span> BoxingGrade = " + data["predictgrade"] +
+				"<br> Predict 9-Days Audience = " + data["predictaud"] + 
+				"<br>" + data["predictment"] + "</span>"				
+			})
+
+
+		}
+	}
+</script>
+  <script src="static/vendor/jquery/jquery.min.js"></script>
+  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+      #searchButton {
+        display: inline;
+        padding: 10px;
+      }
+      #predictButton {
+        display: inline;
+        padding: 10px;
+      }
+    </style>
+</body></html>
